@@ -6,7 +6,7 @@
         remaining = 0;      %Time remaining
         status = BatStatus.Ready;   %status
         use_count = 0;      %How many times has this battery been used
-        count_max = 5;      %How many times can this battery be used
+        count_max = 10;      %How many times can this battery be used
                
     end
     methods
