@@ -1,16 +1,3 @@
-% clear;
-% clc;
-% 
-% %% User Input
-% num_batteries = 5; % Number of batteries
-% num_chargers = 1;  % Number of Chargers    
-% min_flight_time = 5; %hours
-% Charger_Cost = 39;
-% Battery_Cost = 149;
-% Work_Cost = 100;
-% n = num_batteries;
-% Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost);
-
 function[total_field_time,up_time,total_flight_time,Total_Cost] = Battery_Sim(num_batteries,batt,costs,min_flight_time)
 
 Charger_Cost = costs(1);
@@ -121,19 +108,11 @@ end
 Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost);
 total_field_time = i/60;
 up_time = total_flight_time/total_field_time*100;
-% str = "Total Flight Time: " + total_flight_time + " hours";
-% disp(str);
-% str = "Total Field Time: "+total_field_time+" hours";
-% disp(str);
-% str = "Total Up Time: " + up_time + "%";
-% disp(str);
-% str = "Total Cost:"+Total_Cost+"$";
-% disp(str);
 
-filename = "\bat\bat_1C_" + num_batteries+"B.xlsx";
 
-xlswrite(filename,bat_data,"sheet1"); % creates an excel table
+ filename = "\Battery_Sim" + num_batteries+"B.xlsx";
+ 
+ xlswrite(filename,bat_data,"sheet1"); % creates an excel table
 
 end
-
 
