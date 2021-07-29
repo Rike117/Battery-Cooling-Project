@@ -21,12 +21,21 @@ for num_batteries = 2:max_bat
     
     [total_field_time1,up_time1,total_flight_time1,Total_Cost1] = Battery_Sim(num_batteries,batt,costs,min_flight_time);
     
+    [total_field_time2,up_time2,total_flight_time2,Total_Cost2] = Battery_Sim_C2(num_batteries,batt,costs,min_flight_time);
+    
+    [total_field_time3,up_time3,total_flight_time3,Total_Cost3] = Bat_Sim_C_All(num_batteries,batt,costs,min_flight_time);
+    
     [total_field_time4,up_time4,total_flight_time4,Total_Cost4] = Bat_Sim_C_None(batt,costs,min_flight_time);
     
-    field(i,:) = [total_field_time1,total_field_time4];
-    flight(i,:) = [total_flight_time1,total_flight_time4];
-    Tcosts(i,:) = [Total_Cost1,Total_Cost4];
-    clear total_field_time1 total_field_time4;
+    field(i,:) = [total_field_time1,total_field_time2,total_field_time3,total_field_time4];
+    flight(i,:) = [total_flight_time1,total_flight_time2,total_flight_time3,total_flight_time4];
+    Tcosts(i,:) = [Total_Cost1,Total_Cost2,Total_Cost3,Total_Cost4];
+ 
     i = i+1;
 end
+
+import mlreportgen.ppt.*
+
+ppt = Presentation("myPresentation.pptx");
+
 
