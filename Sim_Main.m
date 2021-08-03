@@ -10,7 +10,7 @@ Battery_Cost = 149;
 Work_Cost = 100;
 
 charge_time = 90;
-cool_time = 60;
+cool_time = 6;
 flight_time = 21;
 
 batt = [charge_time,cool_time,flight_time];
@@ -34,8 +34,39 @@ for num_batteries = 2:max_bat
     i = i+1;
 end
 
-import mlreportgen.ppt.*
+figure();
+bar(field)
+title('Total Field Time')
+xlabel('Number of Batteries')
+ylabel('Field Time')
+legend();
 
-ppt = Presentation("myPresentation.pptx");
+figure();
+bar(flight)
+title('Total Flight Time')
+xlabel('Number of Batteries')
+ylabel('Flight Time')
+legend();
 
+figure();
+bar(Tcosts)
+title('Total Cost')
+xlabel('Number of Batteries')
+ylabel('Cost')
+legend();
+
+% import mlreportgen.ppt.*
+% ppt = Presentation('myFirstPresentation.pptx');
+% open(ppt);
+% 
+% titleSlide = add(ppt,'Title Slide');
+% textSlide  = add(ppt,'Title and Content');
+% 
+% paraObj = Paragraph('My First Presentation');
+% paraObj.FontColor = 'red';
+% replace(titleSlide,'Title',paraObj);
+% 
+% replace(textSlide,'Content',{'Subject A','Subject B','Subject C'});
+% close(ppt);
+% rptview(ppt);
 
