@@ -1,118 +1,161 @@
-function[total_field_time,up_time,total_flight_time,Total_Cost] = Battery_Sim(num_batteries,batt,costs,min_flight_time)
+%% User Input
+clear;
+clc;
 
-Charger_Cost = costs(1);
-Battery_Cost = costs(2);
-Work_Cost = costs(3);
-num_chargers = 1;
+max_bat = 12;% Number of batteries
+min_flight_time = 3; %hours
 
-%% Create Battery Array
-for i = 1:num_batteries  % creating a battery array to run code for any number of batteries
-    bat_array(i) = batteryClass(batt(1),batt(2),batt(3)); %Set battery to charge 90 mins ...
-                                           %cool for 40 mins ...
-                                           %use for 22 mins
-end
+Charger_Cost = 39;
+Battery_Cost = 149;
+Work_Cost = 100;
+Method_Cost = 0;
 
-bat_data = {}; %Store the battery use visualization chart here
+charge_time = 90;
+cool_time = 19;
+flight_time = 21;
 
-char1 = Charger(); %Create one charger
+batt = [charge_time,cool_time,flight_time];
+costs = [Charger_Cost,Battery_Cost,Work_Cost,Method_Cost];
 
-
-%% Setup Simulation
-min_flight_time = ceil(min_flight_time*60/bat_array(1).time_use)* ... 
-    bat_array(1).time_use/60*.99; %round to the nearest battery duration max
-sim_flag = true;
-next_ready_battery = 0; % These variables are used to describe at what point in time the status of the batteries should change 
-battery_in_use = 0;
-next_cool_battery = 0;
-charging_battery = 0;
-drone_in_use = false;
-total_flight_time = 0;
-i = 0;
-
-
-%%  Simulation Loop
-while sim_flag == true
-    i = i+1;
-    current_round = 8;
-    next_ready_battery = 0;
+i = 1;
+for num_batteries = 2:max_bat
     
-    next_cool_battery = 0;
+    [total_field_time1,up_time1,total_flight_time1,Total_Cost1] = Battery_Sim(num_batteries,batt,costs,min_flight_time);
     
-    for b=1:num_batteries
-%     for b=1:num_batteries  % Stating that the number of batteries in the array should start at 1
-        bat_array(b).updateBattery();
-        if (bat_array(b).getStatus() == BatStatus.Ready) % This section is stating that if the status of a battery in the array is "Ready" that means that the use count is less than the current round count...
-            if bat_array(b).use_count<current_round % Meaning that the battery has not been used yet or it has gone through the cooling and reacharging procces and is ready for use.
-                current_round = bat_array(b).use_count; % If the use count is less than the current round then the current round value will be set equal to the use count for the battery in the array
-                next_ready_battery = b; % The next ready battery is set equal to the next battery set in the array
-            end
-        end
-        
-        if (bat_array(b).getStatus()==BatStatus.Cooled) % This section is stating that if the status of a battery in the array is "Cooled" that means that the next battery to be cooled is the next correrponding battery in array b
-            next_cool_battery = b;
-        end
-        if (battery_in_use == b) % If battery b is in use the and subsequently its charge is "depleted" then it status is also set to "done"
-            if (bat_array(b).getStatus()==BatStatus.Depleted)||(bat_array(b).getStatus()==BatStatus.Done)
-                drone_in_use = false; % If the drone is still in use then the previous statement is false"
-                battery_in_use = 0; % The array of battery statuses starts at zero. So that the flow of the array and subsequent battery statuses are not hindered
-            end
-        end
-        if (bat_array(b).getStatus()==BatStatus.Depleted) % If the status of a battery is set to "Depleted" that means that the battery should start the cooling process
-            bat_array(b).startCooling();
-        end
-            
-    end
+    [total_field_time2,up_time2,total_flight_time2,Total_Cost2] = Battery_Sim_C2(num_batteries,batt,costs,min_flight_time);
     
-    if char1.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
-    end
+    [total_field_time3,up_time3,total_flight_time3,Total_Cost3] = Bat_Sim_C_All(num_batteries,batt,costs,min_flight_time);
     
-    if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
-        if (next_ready_battery~=0)
-            bat_array(next_ready_battery).useBat();
-            drone_in_use = true;
-            battery_in_use = next_ready_battery;
-        end
-    end
-    if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
-        if char1.getStatus == ChargerStatus.Ready
-            bat_array(next_cool_battery) = char1.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
-        end
-    end
+    [total_field_time4,up_time4,total_flight_time4,Total_Cost4] = Bat_Sim_C_None(batt,costs,min_flight_time);
     
-    simulation_not_done = false; % The simulation is not finished if the the "InUse" status is correlated to a total flight time equaling the total flight time plus one over 60 (1/60)
-    for b = 1:num_batteries
-        status = string(bat_array(b).getStatus);
-        if status=="InUse"
-            total_flight_time = total_flight_time+1/60;
-        end
-        if total_flight_time <= min_flight_time % Simulation is not true if the total flight time is lower than the minimum possible flight time
-            simulation_not_done = true;
-        end
-        bat_data(i,b) = {status}; % Stores the status of each battery corresponding to the array in the simulation
-    end
-    if simulation_not_done == false % Simulation is not complete if sim flag is also false
-        sim_flag = false;
-    end
-    if (i>2800)
-        sim_flag = false;
-    end
-
-end
-
-%% Print Outputs
-% These are the formulas/calculations done by using the data collected by
-% the simulation to calculate the total flight time and total field time as
-% well as the total up time
-Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost);
-total_field_time = i/60;
-up_time = total_flight_time/total_field_time*100;
-
-
- filename = "\Battery_Sim" + num_batteries+"B.xlsx";
+    field(i,:) = [total_field_time1,total_field_time2,total_field_time3,total_field_time4];
+    flight(i,:) = [total_flight_time1,total_flight_time2,total_flight_time3,total_flight_time4];
+    Tcosts(i,:) = [Total_Cost1,Total_Cost2,Total_Cost3,Total_Cost4];
+    UpTime(i,:) = [up_time1,up_time2,up_time3,up_time4];
  
- xlswrite(filename,bat_data,"sheet1"); % creates an excel table
-
+    i = i+1;
 end
 
+figure();
+bar(2:12,field)
+title('Total Field Time')
+xlabel('Number of Batteries')
+ylabel('Field Time')
+legend('1-Charger','2-Chargers','All-Charger','None');
+
+figure();
+bar(2:12,flight)
+title('Total Flight Time')
+xlabel('Number of Batteries')
+ylabel('Flight Time')
+legend('1-Charger','2-Chargers','All-Charger','None');
+
+figure();
+bar(2:12,Tcosts)
+title('Total Cost')
+xlabel('Number of Batteries')
+ylabel('Cost')
+legend('1-Charger','2-Chargers','All-Charger','None');
+
+ figure();
+ bar(2:12,UpTime)
+ title('Total Up Time')
+ xlabel('Number of Batteries')
+ ylabel('Up Time')
+ legend('1-Charger','2-Chargers','All-Charger','None');
+
+
+
+% import mlreportgen.ppt.*
+% ppt = Presentation('Lipo Battery Cooling Methods.pptx');
+% open(ppt);
+% 
+% titleSlide = add(ppt,'Title Slide');
+% textSlide  = add(ppt,'Title and Content');
+% 
+% paraObj = Paragraph(' A Study on Lipo Battery Cooling Methods');
+% paraObj.FontColor = 'Black';
+% replace(titleSlide,'Title',paraObj);
+% 
+% replace(textSlide,'Title','Summary');
+% replace(textSlide,'Content',{'As a part of this study Matlab scripts were created to simulate the varying wait times, cooling times, charging times, and costs that one might encounter while utilizing drones.'...
+%     ,'The first scnerario simulated the conditions that one would encounter when only having one charger. Continually via the script the total wait time, flight time, and field time are calculated',...
+%     'The second scenario simulates the conditions of only having two chargers','The third simulates the conditions of having 5 chargers','The fourth simulates the conditons of having no chargers and using only batteries to achieve the desired flight time'});
+% 
+% slide  = add(ppt,'Title and Content');
+% replace(slide,"Title","Total Field Time");
+% fig = figure;
+% bar(field);
+% title('Total Field Time')
+% xlabel('Number of Batteries')
+% ylabel('Field Time')
+% legend('1-Charger','2-Chargers','All-Charger','None');
+% 
+% slide2  = add(ppt,'Title and Content');
+% replace(slide2,"Title","Total Flight Time");
+% fig2 = figure;
+% bar(flight);
+% title('Total Flight Time')
+% xlabel('Number of Batteries')
+% ylabel('Flight Time')
+% legend('1-Charger','2-Chargers','All-Charger','None');
+% 
+% slide3  = add(ppt,'Title and Content');
+% replace(slide3,"Title","Total Cost");
+% fig3 = figure;
+% bar(Tcosts);
+% title('Total Cost')
+% xlabel('Number of Batteries')
+% ylabel('Cost')
+% legend('1-Charger','2-Chargers','All-Charger','None');
+% 
+% slide4  = add(ppt,'Title and Content');
+% replace(slide4,"Title","Total Up Time");
+% fig4 = figure;
+% bar(UpTime);
+% title('Total Up Time')
+% xlabel('Number of Batteries')
+% ylabel('Up Time')
+% legend('1-Charger','2-Chargers','All-Charger','None');
+% 
+% % Print the figure to an image file
+% figSnapshotImage = "figSnapshot.png";
+% Flight_Pic = "Flight Pic.png";
+% Cost_Pic = "Cost Pic.png";
+% UpTime_Pic = "UpTime_Pic.png";
+% 
+% print(fig,"-dpng",figSnapshotImage);
+% print(fig2,"-dpng",Flight_Pic);
+% print(fig3,"-dpng",Cost_Pic);
+% print(fig4,"-dpng",UpTime_Pic);
+% 
+% % Create a Picture object using the figure snapshot image file
+% figPicture = Picture(figSnapshotImage);
+% figPicture2 = Picture(Flight_Pic);
+% figPicture3 = Picture(Cost_Pic);
+% figPicture4 = Picture(UpTime_Pic);
+% 
+% % Add the figure snapshot picture to the slide
+% replace(slide,"Content",figPicture);
+% replace(slide2,"Content",figPicture2);
+% replace(slide3,"Content",figPicture3);
+% replace(slide4,"Content",figPicture4);
+% 
+% % Close the presentation
+% close(ppt);
+% 
+% % Once the presentation is generated, the figure and the image file
+% % can be deleted
+% delete(fig);
+% delete(fig2);
+% delete(fig3);
+% delete(fig4);
+% 
+% delete(figSnapshotImage);
+% delete(Flight_Pic);
+% delete(Cost_Pic);
+% delete(UpTime_Pic);
+% 
+% % View the presentation
+% rptview(ppt);
+% 
