@@ -1,4 +1,4 @@
- classdef batteryClass < handle
+classdef batteryClass < handle
     properties 
         time_charge = 90;   %default
         time_cool = 60;     %default
@@ -64,5 +64,6 @@
         end
     end
  end
+
 
 
