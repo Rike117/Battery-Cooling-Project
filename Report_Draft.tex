@@ -1,0 +1,210 @@
+\documentclass[12pt]{article}
+\usepackage{amsfonts, amsmath, amssymb}
+\usepackage{graphicx} %use to import graphics
+\usepackage{float} %use to align graphics
+\usepackage[margin=1in]{geometry}
+\usepackage{gensymb}
+\usepackage{rotating}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{subcaption}
+\usepackage{caption}
+
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0em}
+
+
+\begin{document}
+
+\begin{center}
+	\huge{Lipo Battery Cooling Research} \\[10pt]
+	\large{Enrique Lopez Santoyo}
+\end{center}
+
+\rule{\textwidth}{0.5pt}
+\begin{abstract}
+\noindent This study focused on measures one could take to cool down a Lipo battery after use. It is well known that Lipo batteries are prone to overheating which can adversely affect flight time. Furthermore, one must wait until the battery reaches normal operating temperatures to be able to recharge. This could result in arduous waiting time which will only elongate the time needed to complete a task. That is why in this research project the main area of focus was to research cooling methods that would reduce the time a battery would take to cool. The methods that were researched consisted of placing the Lipo battery in a shaded area after use. As well as placing the battery in an air conditioned room to cool down. Another method that was researched was placing the Lipo battery in a Lipo storage bag. The final method that was researched was placing a Lipo battery in a 12V cooler. Based on the findings from the research proper cooling methods can be recommended.
+\end{abstract}
+\rule{\textwidth}{0.5pt}
+
+\section{Introduction}
+A Lithium-Ion Polymer Battery (LiPo) is a rechargeable battery that utilizes lithium-ion technology via a polymer electrolyte (gel like substance) as a substitute for a liquid electrolyte. The electrolyte in question is created via high conductivity semisolid (gel) polymers. LiPo batteries are preferred in certain cases due to their weight to power ratio. But one of their most prominent issues is their tendency to overheat while in use which can have an adverse effect on the batteries performance. Continually, this added heat elongates the batteries cooling time which means it will take longer to recharge the battery, which further hinders the completion of the task at hand. That is why thermal management is vital if one wants to utilize LiPo batteries to the best of their abilities.
+
+LiPo batteries and Lithium-Ion batteries in general are favored in most applications due to their high specific energy, long life cycle, low self-discharge rate, high operating voltage. But all these advantages can be greatly hindered if a LiPo battery is exposed to very high and low temperature conditions. Thermal Management is a vital operation in order to optimize Lipo battery performance. To accomplish this one must monitor the difference in temperature between the battery's internal and ambient temperature. By monitoring the battery's temperature one can be aware when the battery needs to cool down.
+
+The objective of this research project is analyze various cooling methods. Which consist of cooling the batteries in shade, a air conditioned room, a Lipo battery storage bag, and in a 12V electric cooler. Based on the analysis of these cooling methods one can determine which methods are the most effective. By finding an efficient cooling method the cooling time of a Lipo battery can be significantly reduced which means that more time is spent in operation and subsequently finishing the task at hand quicker. 
+
+\section{Testing Procedures}
+All tests that were conducted followed the same basic procedures. The batteries temperature must be measured before use. While in use the batteries temperature must also be monitored, this can be done by stopping whatever operation it was being used for and recording its temperature. Then right after it use has concluded the batteries temperature must be recorded again. Following this the cooling method will be applied for a set amount of time and its performance will be analyzed and recorded. The goal of the cooling methods is to get the battery to around room temperature or to an optimal operating temperature range. The optimal operating temperature for a LiPo battery is between 32\degree F to 95\degree F. It must also be noted that the batteries and environments temperature will not always be the same when testing begins on any given day. That is why various iterations are required to weed out inconsistencies and errors that might present themselves during the research process. Each cooling method will be repeated at least 3 times to validate our results, if the need arises additional iterations will be implemented. The batteries integrity will be protected at all costs by avoiding damaging temperature ranges. This will be done by monitoring the batteries temperature throughout the research process. If a battery is below the optimal operating range, it can be heated via hand warmers, rice heaters, warming bags, and including body heat. It must be noted that one should monitor their heating methods so that they do not warm the battery past its optimal temperature range since it can cause lasting damage to the battery. LiPo batteries preform optimally when at around room temperature which is considered to be around 69.8\degree F. We will strive to have our batteries at room temperature when beginning our research. A LiPo battery is considered to be too cold when the battery reaches a temperature of about 50\degree F this is when the batteries performance will degrade significantly, at around -44.6\degree F major issues will begin to arise. Our team will attempt to avoid these temperature ranges at all costs when implementing our cooling methods by constantly monitoring the batteries temperature. By the end of the research process, we will be able to deduce the best, most efficient, and the most cost-effective cooling method.
+
+\vspace{1in}
+
+\subsection{Heating Procedures}
+
+To simulate a batteries use in drone flight the batteries will be heated in food warming trays. This allows us to heat up the batteries in a controlled environment as well as heat up multiple batteries at the same time. But before being heated up the batteries in question must be fully discharged. This is done to fully simulate a batteries use during drone flight.
+
+The goal is to heat up the batteries to at least 100\degree F. This was done by placing the batteries in food warming trays. But pieces of cardboard were placed on the trays surface to avoid the batteries from touching the trays surface. This is done to prevent uneven heat distribution and to promote an even temperature increase throughout the batteries surface. On that same notion when the batteries reached about 90\degree F they were flipped over. To monitor the batteries temperature Kestrel Data Loggers were utilized. While heating up the batteries the Kestrel loggers were positioned in a manner that its temperature sensor is as close to the battery as possible. The loggers logged the batteries temperature every 30 seconds and one could view each individual batteries temperature by connecting to the loggers via a cellphone. Then once all the batteries reached a temperature of 100\degree F they were taken out of the food warming trays and a cooling method was applied to them. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.09,angle=0]{Warm_Plate_1}
+	\caption{Food Warmer Heating Method}
+	\label{fig:Food Warmer}
+\end{figure}
+
+\subsection{Cooling Procedures}
+
+\subsubsection{Shade}
+
+For this cooling method the batteries were placed on a table in a well shaded and ventilated area, with a piece of cardboard between the table and the batteries. This was done to prevent the heat generated on the tables surface to affect the batteries temperature. The batteries temperature was logged every 30 seconds with the Kestrel Loggers. The ambient temperature was also recorded every 30 seconds. For this method the goal was to see how long it took the batteries to reach the ambient temperature. Once the tests concluded data was subsequently extracted the from the data logger which came in the form of an excel spreadsheet. The data was then be transferred to Matlab for analysis. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.03,angle=270]{Shade_1}
+	\caption{Shaded Cooling Method}
+	\label{fig:Shade}
+\end{figure}
+
+
+
+\subsubsection{Air-Conditioned Room}
+
+For the air conditioned room cooling method the batteries where placed in an air-conditioned room. Whose temperature was set to around 75.5\degree F. The batteries temperatures were logged every 30 seconds with the Kestrel Loggers. For this method the goal was to see how long it took the batteries to reach the ambient temperature to within a few degrees. Then the amount of time it took to cool down to the acceptable range was recorded. Once the tests concluded data was subsequently extracted the from the data logger which came in the form of an excel spreadsheet. The data was then be transferred to Matlab for analysis. 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.05,angle=270]{Air_Cond_1}
+	\caption{Air-Conditioned Cooling Method}
+	\label{fig:Air-Conditioned}
+\end{figure}
+
+
+\subsubsection{Lipo Battery Bag}
+
+For this method the batteries where placed in LiPo bag. Record bags internal temperature.The ambient temperature should be monitored throughout the whole process. Monitor Batteries temperature until it reaches a temperature between 71.6\degree F-82.4\degree F. Record the amount of time it took the battery to cool down to an acceptable range.	Once the test has concluded one must extract the data from the data logger which will come in the form of an excel spreadsheet. The data must then be transferred to Matlab for analysis.
+
+\begin{figure}
+\centering
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width=\textwidth]{Lipo_Bag_1}
+\caption{}
+\label{fig: Lipo Bag 1}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width=\textwidth]{Lipo_Bag_2}
+\caption{}
+\label{fig: Lipo Bag 2}
+\end{subfigure}
+\caption{(a) Lipo Bag. (b) Batteries placed in Lipo Bag}
+\label{Two Lipo Bag Images}
+\end{figure}
+
+\subsubsection{Electric Cooler}
+To implement the electric cooler method it will require an external 12V power source. Then the mini coolers internal temperature should be set to 40\degree F. It will take about two hours for the cooler to reach its adjusted temperature setting but this only need to be done once. Once the cooler reaches the required temperature the heated batteries can be placed in the cooler. The ambient temperature around the cooler should be monitored throughout the whole process. This can be done via the cooler's digital temperature display. The batteries temperature should be monitored until it reaches a temperature between 71.6\degree F-82.4\degree F. The Kestrel loggers must be positioned in a manner that its temperature sensor is as close to the battery as possible.Once the acceptable temperature range has been met the time it took to reach that range should be recorded. Once the test has concluded one must extract the data from the data logger which will come in the form of an excel spreadsheet. The data must then be transferred to Matlab for analysis.
+
+
+\subsection{Results}
+
+\subsubsection{Shade}
+
+Not good. Might yield favorable results in cooler environments
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width=\textwidth]{Shade_2}
+\caption{}
+\label{fig: Shade 2}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width=\textwidth]{Shade_3}
+\caption{}
+\label{fig: Shade 3}
+\end{subfigure}
+\caption{(a) Picture of batteries cooling in shade (b) Second image of shaded cooling}
+\label{fig: Shaded Method}
+\end{figure}
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6,angle=0]{Shade_Run3}
+	\caption{Shade Cooling Method Plot}
+	\label{fig:Air-Conditioned}
+\end{figure}
+
+\subsubsection{Air-Conditioned Room}
+Pretty good results. Recommended
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width=\textwidth]{AC_1}
+\caption{}
+\label{fig: AC Room 1}
+\end{subfigure}
+\hfill
+\begin{subfigure}[b]{0.45\textwidth}
+\centering
+\includegraphics[width=\textwidth]{AC_2}
+\caption{}
+\label{fig: AC Room 2}
+\end{subfigure}
+\caption{(a) Picture of batteries cooling in air conditioned room (b) Second image of AC cooling}
+\label{fig: AC Room}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6,angle=0]{AC_Run1}
+	\caption{Air-Conditioned Cooling Method Plot}
+	\label{fig:Air-Conditioned}
+\end{figure}
+
+
+\subsubsection{Lip Battery Bag}
+Batteries cool down but take a considerable amount of time in an air conditioned environment. not recommended for outside applications or inside
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45,angle=0]{Lipo_Bag_3}
+	\caption{Lipo Bag Cooling Method}
+	\label{fig:Shade}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6,angle=0]{Lipo_Run1}
+	\caption{Lipo Bag Cooling Method Plot}
+	\label{fig:Air-Conditioned}
+\end{figure}
+
+\subsubsection{Electric Cooler}
+Great. Cools batteries extremely quick 
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.45,angle=270]{Cooler_1}
+	\caption{Electric Cooler Cooling Method}
+	\label{fig:Cooler}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=0.6,angle=0]{Cooler_Run3}
+	\caption{Electric Cooler Cooling Method Plot}
+	\label{fig:Air-Conditioned}
+\end{figure}
+
+\subsection{Conclusion}
+
+
+\end{document}
