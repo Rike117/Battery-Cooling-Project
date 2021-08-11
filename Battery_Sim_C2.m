@@ -2,7 +2,8 @@ function[total_field_time,up_time,total_flight_time,Total_Cost] = Battery_Sim_C2
 Charger_Cost = costs(1);
 Battery_Cost = costs(2);
 Work_Cost = costs(3);
-num_chargers = 1;
+Method_Cost = costs(4);
+num_chargers = 2;
 
 %% Create Battery Array
 for i = 1:num_batteries  % creating a battery array to run code for any number of batteries
@@ -24,7 +25,8 @@ sim_flag = true;
 next_ready_battery = 0; % These variables are used to describe at what point in time the status of the batteries should change 
 battery_in_use = 0;
 next_cool_battery = 0;
-charging_battery = 0;
+charging_battery1 = 0;
+charging_battery2 = 0;
 drone_in_use = false;
 total_flight_time = 0;
 i = 0;
@@ -61,9 +63,11 @@ while sim_flag == true
     end
     
    if char1.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
+        bat_array(charging_battery1) = char1.updateCharger(bat_array(charging_battery1));
     end
-    
+    if char2.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
+        bat_array(charging_battery2) = char2.updateCharger(bat_array(charging_battery2));
+    end
     if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
         if (next_ready_battery~=0)
             bat_array(next_ready_battery).useBat();
@@ -74,28 +78,19 @@ while sim_flag == true
     if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
         if char1.getStatus == ChargerStatus.Ready
             bat_array(next_cool_battery) = char1.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
+            charging_battery1 = next_cool_battery;
+            next_cool_battery = 0;
         end
     end
-    
-      if char2.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
-    end
-    
-    if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
-        if (next_ready_battery~=0)
-            bat_array(next_ready_battery).useBat();
-            drone_in_use = true;
-            battery_in_use = next_ready_battery;
-        end
-    end
-    if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
+    if (next_cool_battery~=0)
         if char2.getStatus == ChargerStatus.Ready
             bat_array(next_cool_battery) = char2.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
+            charging_battery2 = next_cool_battery;
+            next_cool_battery = 0;
         end
     end
               
+                      
     simulation_not_done = false;
     for b = 1:num_batteries
         status = string(bat_array(b).getStatus);
@@ -114,13 +109,13 @@ while sim_flag == true
 end
 
 %% Print Outputs
-Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost);
+
 total_field_time = i/60;
 up_time = total_flight_time/total_field_time*100;
+Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost*total_field_time)+Method_Cost ;
 
-
- filename = "\Battery_Sim_C2" + num_batteries+"B.xlsx";
- 
- xlswrite(filename,bat_data,"sheet1"); % creates an excel table
+%  filename = "\Battery_Sim_C2" + num_batteries+"B.xlsx";
+%  
+%  xlswrite(filename,bat_data,"sheet1"); % creates an excel table
 
 end 
