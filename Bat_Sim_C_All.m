@@ -2,7 +2,8 @@ function[total_field_time,up_time,total_flight_time,Total_Cost] = Bat_Sim_C_All(
 Charger_Cost = costs(1);
 Battery_Cost = costs(2);
 Work_Cost = costs(3);
-num_chargers = 1;
+Method_Cost = costs(4);
+num_chargers = num_batteries;
 %% Create Battery Array
 for i = 1:num_batteries  % creating a battery array to run code for any number of batteries
       bat_array(i) = batteryClass(batt(1),batt(2),batt(3));%Set battery to charge 90 mins ...
@@ -46,8 +47,13 @@ while sim_flag == true
             end
         end
         if (bat_array(b).getStatus()==BatStatus.Cooled)
-            next_cool_battery = b;
+          bat_array(b).setCharge();
         end
+        
+       if(bat_array(b).getStatus()==BatStatus.Charging)
+           bat_array(b).chargeBat();
+       end
+        
         if (battery_in_use == b)
             if (bat_array(b).getStatus()==BatStatus.Depleted)||(bat_array(b).getStatus()==BatStatus.Done)
                 drone_in_use = false;
@@ -60,11 +66,7 @@ while sim_flag == true
             
     end
   
- % Charger 1 Status definition 
-   if char1.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
-    end
-    
+  
     if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
         if (next_ready_battery~=0)
             bat_array(next_ready_battery).useBat();
@@ -72,87 +74,7 @@ while sim_flag == true
             battery_in_use = next_ready_battery;
         end
     end
-    if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
-        if char1.getStatus == ChargerStatus.Ready
-            bat_array(next_cool_battery) = char1.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
-        end
-    end
-    
-   % Charger 2 Status definition 
-      if char2.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
-    end
-    
-    if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
-        if (next_ready_battery~=0)
-            bat_array(next_ready_battery).useBat();
-            drone_in_use = true;
-            battery_in_use = next_ready_battery;
-        end
-    end
-    if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
-        if char2.getStatus == ChargerStatus.Ready
-            bat_array(next_cool_battery) = char2.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
-        end
-    end
-   % Charger 3 Status definition 
-    if char3.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
-    end
-    
-    if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
-        if (next_ready_battery~=0)
-            bat_array(next_ready_battery).useBat();
-            drone_in_use = true;
-            battery_in_use = next_ready_battery;
-        end
-    end
-    if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
-        if char3.getStatus == ChargerStatus.Ready
-            bat_array(next_cool_battery) = char3.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
-        end
-    end
-    
-    % Charger 4 Status definition 
-    if char4.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
-    end
-    
-    if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
-        if (next_ready_battery~=0)
-            bat_array(next_ready_battery).useBat();
-            drone_in_use = true;
-            battery_in_use = next_ready_battery;
-        end
-    end
-    if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
-        if char4.getStatus == ChargerStatus.Ready
-            bat_array(next_cool_battery) = char4.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
-        end
-    end
-    
-   % Charger 5 Status definition  
-    if char5.getStatus==ChargerStatus.Charging % If the status of charger one is set to "charging" then the its status within the array should be correlated to the battery it is currently charging 
-        bat_array(charging_battery) = char1.updateCharger(bat_array(charging_battery));
-    end
-    
-    if drone_in_use == false % If the drone/battery is still in use the following statements are considered false and are voided
-        if (next_ready_battery~=0)
-            bat_array(next_ready_battery).useBat();
-            drone_in_use = true;
-            battery_in_use = next_ready_battery;
-        end
-    end
-    if (next_cool_battery~=0) % If the next cool battery is equal to zero then the status of charger one is set to "Ready" then the battery should move on to the next battery that needs to be charged
-        if char5.getStatus == ChargerStatus.Ready
-            bat_array(next_cool_battery) = char5.setBattery(bat_array(next_cool_battery));
-            charging_battery = next_cool_battery;
-        end
-    end
+
               
     simulation_not_done = false;
     for b = 1:num_batteries
@@ -172,13 +94,13 @@ while sim_flag == true
 end
 
 %% Print Outputs
-Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost);
+
 total_field_time = i/60;
 up_time = total_flight_time/total_field_time*100;
-
-
- filename = "\Bat_Sim_C_All" + num_batteries+"B.xlsx";
- 
- xlswrite(filename,bat_data,"sheet1"); % creates an excel table
+Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost*total_field_time)+Method_Cost ;
+% 
+%  filename = "\Bat_Sim_C_All" + num_batteries+"B.xlsx";
+%  
+%  xlswrite(filename,bat_data,"sheet1"); % creates an excel table
 
 end
