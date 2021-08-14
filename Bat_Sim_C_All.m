@@ -103,4 +103,4 @@ Total_Cost = (num_batteries*Battery_Cost)+(num_chargers*Charger_Cost)+(Work_Cost
 %  
 %  xlswrite(filename,bat_data,"sheet1"); % creates an excel table
 
-end
+end 
