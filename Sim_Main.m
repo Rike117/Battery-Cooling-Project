@@ -1,14 +1,15 @@
+
 %% User Input
 clear;
 clc;
 
-max_bat = 12;% Number of batteries
+max_bat = 9;% Number of batteries
 min_flight_time = 3; %hours
 
 Charger_Cost = 39;
 Battery_Cost = 149;
 Work_Cost = 100;
-Method_Cost = 0;
+Method_Cost = 150;
 
 charge_time = 90;
 cool_time = 19;
@@ -37,28 +38,28 @@ for num_batteries = 2:max_bat
 end
 
 figure();
-bar(2:12,field)
+bar(2:9,field)
 title('Total Field Time')
 xlabel('Number of Batteries')
 ylabel('Field Time')
 legend('1-Charger','2-Chargers','All-Charger','None');
 
 figure();
-bar(2:12,flight)
+bar(2:9,flight)
 title('Total Flight Time')
 xlabel('Number of Batteries')
 ylabel('Flight Time')
 legend('1-Charger','2-Chargers','All-Charger','None');
 
 figure();
-bar(2:12,Tcosts)
+bar(2:9,Tcosts)
 title('Total Cost')
 xlabel('Number of Batteries')
 ylabel('Cost')
 legend('1-Charger','2-Chargers','All-Charger','None');
 
  figure();
- bar(2:12,UpTime)
+ bar(2:9,UpTime)
  title('Total Up Time')
  xlabel('Number of Batteries')
  ylabel('Up Time')
